@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Search({ onSearch }) {
@@ -8,8 +8,13 @@ export default function Search({ onSearch }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`?query=${search}`);
-        onSearch(search);
+        if (search.trim() === "") {
+            navigate("/");
+            onSearch("");
+        } else {
+            navigate(`?query=${search}`);
+            onSearch(search);
+        }
     }
 
     return (

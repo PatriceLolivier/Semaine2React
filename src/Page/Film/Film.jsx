@@ -44,16 +44,17 @@ export default function Film() {
         } else {
             fetchFilm();
         }
-    }, []);
+    }, [searchParams]);
 
     return (
         <div className="container mx-auto px-4">
             <h1 className="text-2xl font-bold mb-4 text-center">Films en cours de diffusion</h1>
             <Search onSearch={searchFilm} />
-            <div className="flex flex-wrap -mx-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
                 {films.map((film) => (
                     <Card 
                         key={film.id}
+                        id={film.id}
                         title={film.title}
                         overview={film.overview}
                         poster_path={film.poster_path}

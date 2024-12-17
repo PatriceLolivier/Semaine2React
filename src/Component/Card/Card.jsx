@@ -1,6 +1,9 @@
-export default function Card({ title, overview, poster_path,  }) {
+import { Link } from "react-router-dom";
+
+export default function Card({ title, overview, poster_path, id }) {
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
+    <div className="w-full">
+      <Link to={`/film/${id}`}>
         <div className="bg-black rounded-lg border-2 border-red-500 h-full flex flex-col">
             <img 
               className="w-full h-[400px] object-cover rounded-t-lg"
@@ -10,9 +13,9 @@ export default function Card({ title, overview, poster_path,  }) {
             <div className="flex flex-col flex-grow p-4 leading-normal text-white">
                 <h2 className="text-xl font-bold mb-2 line-clamp-2">{title}</h2>
                 <p className="line-clamp-4">{overview}</p>
-                <p></p>
             </div>
         </div>
+      </Link>
     </div>
   );
 }
