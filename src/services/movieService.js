@@ -26,15 +26,39 @@ export const movieService = {
 
     searchMovies: async (query) => {
         try {
-            console.log("Options complètes:", options);
             const response = await axios.get(
-                `${API_URL}/search/movie?query=${(query)}&language=fr-FR`,
+                `${API_URL}/search/movie?query=${query}&language=fr-FR`,
                 options
             );
             return response.data.results;
         } catch (error) {
             console.error("Erreur complète:", error.response?.data || error);
             return [];
+        }
+    },
+
+    getMovieDetails: async (id) => {
+        try {
+            const [movieResponse, videoResponse] = await Promise.all([
+                axios.get(`${API_URL}/movie/${id}?language=fr-FR`, options),
+                axios.get(`${API_URL}/movie/${id}/videos?language=fr-FR`, options)
+            ]);
+            
+            const trailer = videoResponse.data.results.find(
+                video => video.type === "Trailer" && video.official === true
+            );
+            
+            const teaser = videoResponse.data.results.find(
+                video => video.type === "Teaser" && video.official === true
+            );
+            
+            return {
+                movieDetails: movieResponse.data,
+                videoKey: trailer?.key || teaser?.key || null
+            };
+        } catch(error) {
+            console.error("Erreur lors de la récupération des détails:", error);
+            return null;
         }
     }
 };
