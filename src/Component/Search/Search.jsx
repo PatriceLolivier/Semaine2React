@@ -1,19 +1,25 @@
-import { useState } from "react"
+import { useState, useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { MovieContext } from "../../context/MovieContent";
+import { movieService } from "../../services/movieService";
 
-export default function Search({ onSearch }) {
+export default function Search() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [search, setSearch] = useState(searchParams.get("query") || "");
+    const { setFilms } = useContext(MovieContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Token:", import.meta.env.VITE_API_TOKEN);
         if (search.trim() === "") {
             navigate("/");
-            onSearch("");
+            const results = await movieService.getNowPlaying();
+            setFilms(results);
         } else {
             navigate(`?query=${search}`);
-            onSearch(search);
+            const results = await movieService.searchMovies(search);
+            setFilms(results);
         }
     }
 
