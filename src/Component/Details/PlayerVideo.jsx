@@ -7,8 +7,8 @@ export default function PlayerVideo({ videoKey }) {
     <div className="flex justify-center w-full aspect-video rounded-lg overflow-hidden">
       <ReactPlayer
         url={`https://www.youtube.com/watch?v=${videoKey}`}
-        width="50%"
-        height="50%"
+        width="75%"
+        height="75%"
         controls={true}
         playing={false}
         config={{
